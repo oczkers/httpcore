@@ -346,11 +346,20 @@ the <code>request</code> method.</p></div>
 <div class="autodoc-docstring"><p>The interface for sending a single HTTP request, and returning a response.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>method</strong> - <em>bytes</em> The HTTP method, such as <code>b'GET'</code>.</li>
-<li><strong>url</strong> - <em>(bytes, bytes, int, bytes)</em> The URL as a 4-tuple of (scheme, host, port, path).</li>
-<li><strong>headers</strong> - <em>list of (bytes, bytes), optional</em> Any HTTP headers to send with the request.</li>
-<li><strong>stream</strong> - <em>bytes async iterator, optional</em></li>
-<li><strong>timeout</strong> - <em>(float, float, float, float), all optional.</em> A tuple of timeout values for (read, write, connect, pool acquiry) operations.</li>
+<li><strong>method</strong> - <em>bytes</em> - The HTTP method, such as <code>b'GET'</code>.</li>
+<li><strong>url</strong> - <em>(bytes, bytes, int, bytes)</em> - The URL as a 4-tuple of (scheme, host, port, path).</li>
+<li><strong>headers</strong> - <em>list of (bytes, bytes), optional</em> - Any HTTP headers to send with the request.</li>
+<li><strong>stream</strong> - <em>bytes async iterator, optional</em> - The body of the HTTP request.</li>
+<li><strong>timeout</strong> - <em>(float, float, float, float), all optional.</em> - A tuple of timeout values for (read, write, connect, pool acquiry) operations.</li>
+</ul>
+<p><strong> Returns:</strong></p>
+<p>A five-tuple of:</p>
+<ul>
+<li><strong>http_version</strong> - <em>bytes</em> - The HTTP version used by the server, such as <code>b'HTTP/1.1'</code>.</li>
+<li><strong>status_code</strong> - <em>int</em> - The HTTP status code, such as <code>200</code>.</li>
+<li><strong>reason_phrase</strong> - <em>bytes</em> - Any HTTP reason phrase, such as <code>b'OK'</code>.</li>
+<li><strong>headers</strong> - <em>list of (bytes, bytes)</em> - Any HTTP headers included on the response.</li>
+<li><strong>stream</strong> - <em>bytes async iterator</em> - The body of the HTTP response.</li>
 </ul></div>
 <div class="autodoc-signature"><code><strong>close</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Close the implementation, which should close any outstanding response streams,
@@ -362,9 +371,9 @@ and any keep alive connections.</p></div>
 <div class="autodoc-docstring"><p>A connection pool for making HTTP requests.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> An SSL context to use for verifying connections.</li>
-<li><strong>max_keepalive</strong> - <em>int, optional</em> The maximum number of keep alive connections to maintain in the pool.</li>
-<li><strong>max_connections</strong> - <em>int, optional</em> The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
+<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> - An SSL context to use for verifying connections.</li>
+<li><strong>max_keepalive</strong> - <em>int, optional</em> - The maximum number of keep alive connections to maintain in the pool.</li>
+<li><strong>max_connections</strong> - <em>int, optional</em> - The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
 </ul></div>
 </div>
 <div class="autodoc">
@@ -372,12 +381,12 @@ and any keep alive connections.</p></div>
 <div class="autodoc-docstring"><p>A connection pool for making HTTP requests via an HTTP proxy.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>proxy_url</strong> - <em>(bytes, bytes, int, bytes)</em> The URL of the proxy service as a 4-tuple of (scheme, host, port, path).</li>
-<li><strong>proxy_headers</strong> - <em>list of (bytes, bytes), optional</em> An SSL context to use for verifying connections.</li>
-<li><strong>proxy_mode</strong> - <em>str, optional</em> A proxy mode to operate in. May be "DEFAULT", "FORWARD_ONLY", or "TUNNEL_ONLY".</li>
-<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> An SSL context to use for verifying connections.</li>
-<li><strong>max_keepalive</strong> - <em>int, optional</em> The maximum number of keep alive connections to maintain in the pool.</li>
-<li><strong>max_connections</strong> - <em>int, optional</em> The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
+<li><strong>proxy_url</strong> - <em>(bytes, bytes, int, bytes)</em> - The URL of the proxy service as a 4-tuple of (scheme, host, port, path).</li>
+<li><strong>proxy_headers</strong> - <em>list of (bytes, bytes), optional</em> - An SSL context to use for verifying connections.</li>
+<li><strong>proxy_mode</strong> - <em>str, optional</em> - A proxy mode to operate in. May be "DEFAULT", "FORWARD_ONLY", or "TUNNEL_ONLY".</li>
+<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> - An SSL context to use for verifying connections.</li>
+<li><strong>max_keepalive</strong> - <em>int, optional</em> - The maximum number of keep alive connections to maintain in the pool.</li>
+<li><strong>max_connections</strong> - <em>int, optional</em> - The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
 </ul></div>
 </div>
 <h2 id="sync-api-overview">Sync API Overview</h2>
@@ -391,11 +400,20 @@ the <code>request</code> method.</p></div>
 <div class="autodoc-docstring"><p>The interface for sending a single HTTP request, and returning a response.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>method</strong> - <em>bytes</em> The HTTP method, such as <code>b'GET'</code>.</li>
-<li><strong>url</strong> - <em>(bytes, bytes, int, bytes)</em> The URL as a 4-tuple of (scheme, host, port, path).</li>
-<li><strong>headers</strong> - <em>list of (bytes, bytes), optional</em> Any HTTP headers to send with the request.</li>
-<li><strong>stream</strong> - <em>bytes async iterator, optional</em></li>
-<li><strong>timeout</strong> - <em>(float, float, float, float), all optional.</em> A tuple of timeout values for (read, write, connect, pool acquiry) operations.</li>
+<li><strong>method</strong> - <em>bytes</em> - The HTTP method, such as <code>b'GET'</code>.</li>
+<li><strong>url</strong> - <em>(bytes, bytes, int, bytes)</em> - The URL as a 4-tuple of (scheme, host, port, path).</li>
+<li><strong>headers</strong> - <em>list of (bytes, bytes), optional</em> - Any HTTP headers to send with the request.</li>
+<li><strong>stream</strong> - <em>bytes async iterator, optional</em> - The body of the HTTP request.</li>
+<li><strong>timeout</strong> - <em>(float, float, float, float), all optional.</em> - A tuple of timeout values for (read, write, connect, pool acquiry) operations.</li>
+</ul>
+<p><strong> Returns:</strong></p>
+<p>A five-tuple of:</p>
+<ul>
+<li><strong>http_version</strong> - <em>bytes</em> - The HTTP version used by the server, such as <code>b'HTTP/1.1'</code>.</li>
+<li><strong>status_code</strong> - <em>int</em> - The HTTP status code, such as <code>200</code>.</li>
+<li><strong>reason_phrase</strong> - <em>bytes</em> - Any HTTP reason phrase, such as <code>b'OK'</code>.</li>
+<li><strong>headers</strong> - <em>list of (bytes, bytes)</em> - Any HTTP headers included on the response.</li>
+<li><strong>stream</strong> - <em>bytes async iterator</em> - The body of the HTTP response.</li>
 </ul></div>
 <div class="autodoc-signature"><code><strong>close</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>Close the implementation, which should close any outstanding response streams,
@@ -407,9 +425,9 @@ and any keep alive connections.</p></div>
 <div class="autodoc-docstring"><p>A connection pool for making HTTP requests.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> An SSL context to use for verifying connections.</li>
-<li><strong>max_keepalive</strong> - <em>int, optional</em> The maximum number of keep alive connections to maintain in the pool.</li>
-<li><strong>max_connections</strong> - <em>int, optional</em> The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
+<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> - An SSL context to use for verifying connections.</li>
+<li><strong>max_keepalive</strong> - <em>int, optional</em> - The maximum number of keep alive connections to maintain in the pool.</li>
+<li><strong>max_connections</strong> - <em>int, optional</em> - The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
 </ul></div>
 </div>
 <div class="autodoc">
@@ -417,12 +435,12 @@ and any keep alive connections.</p></div>
 <div class="autodoc-docstring"><p>A connection pool for making HTTP requests via an HTTP proxy.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>proxy_url</strong> - <em>(bytes, bytes, int, bytes)</em> The URL of the proxy service as a 4-tuple of (scheme, host, port, path).</li>
-<li><strong>proxy_headers</strong> - <em>list of (bytes, bytes), optional</em> An SSL context to use for verifying connections.</li>
-<li><strong>proxy_mode</strong> - <em>str, optional</em> A proxy mode to operate in. May be "DEFAULT", "FORWARD_ONLY", or "TUNNEL_ONLY".</li>
-<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> An SSL context to use for verifying connections.</li>
-<li><strong>max_keepalive</strong> - <em>int, optional</em> The maximum number of keep alive connections to maintain in the pool.</li>
-<li><strong>max_connections</strong> - <em>int, optional</em> The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
+<li><strong>proxy_url</strong> - <em>(bytes, bytes, int, bytes)</em> - The URL of the proxy service as a 4-tuple of (scheme, host, port, path).</li>
+<li><strong>proxy_headers</strong> - <em>list of (bytes, bytes), optional</em> - An SSL context to use for verifying connections.</li>
+<li><strong>proxy_mode</strong> - <em>str, optional</em> - A proxy mode to operate in. May be "DEFAULT", "FORWARD_ONLY", or "TUNNEL_ONLY".</li>
+<li><strong>ssl_context</strong> - <em>SSLContext, optional</em> - An SSL context to use for verifying connections.</li>
+<li><strong>max_keepalive</strong> - <em>int, optional</em> - The maximum number of keep alive connections to maintain in the pool.</li>
+<li><strong>max_connections</strong> - <em>int, optional</em> - The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
 </ul></div>
 </div>
                 
