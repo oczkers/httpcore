@@ -368,10 +368,12 @@ defaults, or any of that Jazz.</p>
         <span class="n">headers</span><span class="o">=</span><span class="p">[(</span><span class="sa">b</span><span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;example.org&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;user-agent&#39;</span><span class="p">:</span> <span class="s1">&#39;httpcore&#39;</span><span class="p">)]</span>
     <span class="p">)</span>
 
-    <span class="n">body</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
-    <span class="k">async</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
-        <span class="n">body</span> <span class="o">+=</span> <span class="n">chunk</span>
-    <span class="k">await</span> <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">+=</span> <span class="n">chunk</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
 </pre></div>
@@ -382,8 +384,12 @@ defaults, or any of that Jazz.</p>
 you're writing something like a proxy service in Python, and you just want
 something at the lowest possible level, but more typically you'll want to use
 a higher level client library, such as <code>httpx</code>.</p>
-<p>The motivation is for <code>httpcore</code> to provide a reusable low-level client library,
-that other packages can then build on top of.</p>
+<p>The motivation for <code>httpcore</code> is:</p>
+<ul>
+<li>To provide a reusable low-level client library, that other packages can then build on top of.</li>
+<li>To provide a <em>really clear interface split</em> between the networking code and client logic,
+  so that each is easier to understand and reason about in isolation.</li>
+</ul>
                 
                   
                 
