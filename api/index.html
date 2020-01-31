@@ -336,11 +336,13 @@
                 
                 <h1 id="developer-interface">Developer Interface</h1>
 <h2 id="async-api-overview">Async API Overview</h2>
+<p>The <code>AsyncHTTPTransport</code> and <code>AsyncByteStream</code> classes provide the base
+interface which transport classes need to implement.</p>
 <div class="autodoc">
-<div class="autodoc-signature"><em>class </em><code>httpcore.<strong>AsyncDispatchInterface</strong></code><span class="autodoc-punctuation">(</span><span class="autodoc-punctuation">)</span></div>
-<div class="autodoc-docstring"><p>The base abstract interface for sending HTTP requests.</p>
+<div class="autodoc-signature"><em>class </em><code>httpcore.<strong>AsyncHTTPTransport</strong></code><span class="autodoc-punctuation">(</span><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>The base interface for sending HTTP requests.</p>
 <p>Concete implementations should subclass this class, and implement
-the <code>request</code> method.</p></div>
+the <code>request</code> method, and optionally the <code>close</code> method.</p></div>
 <div class="autodoc-members">
 <div class="autodoc-signature"><code><strong>request</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">method</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">url</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">headers=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">stream=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">timeout=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>The interface for sending a single HTTP request, and returning a response.</p>
@@ -366,6 +368,20 @@ the <code>request</code> method.</p></div>
 and any keep alive connections.</p></div>
 </div>
 </div>
+<div class="autodoc">
+<div class="autodoc-signature"><em>class </em><code>httpcore.<strong>AsyncByteStream</strong></code><span class="autodoc-punctuation">(</span><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>The base interface for request and response bodies.</p>
+<p>Concrete implementations should subclass this class, and implement
+the <code>__aiter__</code> method, and optionally the <code>close</code> method.</p></div>
+<div class="autodoc-members">
+<div class="autodoc-signature"><code><strong><strong>aiter</strong></strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>Yield bytes representing the request or response body.</p></div>
+<div class="autodoc-signature"><code><strong>close</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>Must be called by the client to indicate that the stream has been closed.</p></div>
+</div>
+</div>
+<p>The <code>AsyncConnectionPool</code> and <code>AsyncHTTPProxy</code> classes are concrete
+implementations of the <code>AsyncHTTPTransport</code> class.</p>
 <div class="autodoc">
 <div class="autodoc-signature"><em>class </em><code>httpcore.<strong>AsyncConnectionPool</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">ssl_context=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">max_keepalive=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">max_connections=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>A connection pool for making HTTP requests.</p>
@@ -389,12 +405,15 @@ and any keep alive connections.</p></div>
 <li><strong>max_connections</strong> - <em>int, optional</em> - The maximum number of HTTP connections to allow. Attempting to establish a connection beyond this limit will block for the duration specified in the pool acquiry timeout.</li>
 </ul></div>
 </div>
+<hr />
 <h2 id="sync-api-overview">Sync API Overview</h2>
+<p>The <code>SyncHTTPTransport</code> and <code>SyncByteStream</code> classes provide the base
+interface which transport classes need to implement.</p>
 <div class="autodoc">
-<div class="autodoc-signature"><em>class </em><code>httpcore.<strong>SyncDispatchInterface</strong></code><span class="autodoc-punctuation">(</span><span class="autodoc-punctuation">)</span></div>
-<div class="autodoc-docstring"><p>The base abstract interface for sending HTTP requests.</p>
+<div class="autodoc-signature"><em>class </em><code>httpcore.<strong>SyncHTTPTransport</strong></code><span class="autodoc-punctuation">(</span><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>The base interface for sending HTTP requests.</p>
 <p>Concete implementations should subclass this class, and implement
-the <code>request</code> method.</p></div>
+the <code>request</code> method, and optionally the <code>close</code> method.</p></div>
 <div class="autodoc-members">
 <div class="autodoc-signature"><code><strong>request</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">method</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">url</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">headers=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">stream=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">timeout=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>The interface for sending a single HTTP request, and returning a response.</p>
@@ -420,6 +439,20 @@ the <code>request</code> method.</p></div>
 and any keep alive connections.</p></div>
 </div>
 </div>
+<div class="autodoc">
+<div class="autodoc-signature"><em>class </em><code>httpcore.<strong>SyncByteStream</strong></code><span class="autodoc-punctuation">(</span><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>The base interface for request and response bodies.</p>
+<p>Concrete implementations should subclass this class, and implement
+the <code>__iter__</code> method, and optionally the <code>close</code> method.</p></div>
+<div class="autodoc-members">
+<div class="autodoc-signature"><code><strong><strong>iter</strong></strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>Yield bytes representing the request or response body.</p></div>
+<div class="autodoc-signature"><code><strong>close</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">self</em><span class="autodoc-punctuation">)</span></div>
+<div class="autodoc-docstring"><p>Must be called by the client to indicate that the stream has been closed.</p></div>
+</div>
+</div>
+<p>The <code>SyncConnectionPool</code> and <code>SyncHTTPProxy</code> classes are concrete
+implementations of the <code>SyncHTTPTransport</code> class.</p>
 <div class="autodoc">
 <div class="autodoc-signature"><em>class </em><code>httpcore.<strong>SyncConnectionPool</strong></code><span class="autodoc-punctuation">(</span><em class="autodoc-param">ssl_context=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">max_keepalive=None</em><span class="autodoc-punctuation">, </span><em class="autodoc-param">max_connections=None</em><span class="autodoc-punctuation">)</span></div>
 <div class="autodoc-docstring"><p>A connection pool for making HTTP requests.</p>
